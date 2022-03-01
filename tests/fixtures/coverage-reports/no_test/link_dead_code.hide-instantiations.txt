@@ -1,11 +1,11 @@
-src/lib.rs:
+/private/var/folders/r3/hm536h9x0nj5zfh1qtyt7hth0000gn/T/.tmpJWBy8h/src/lib.rs:
     1|      1|mod module;mod module;
     2|       |pub use module::*;
     3|       |
     4|      1|#[test]
     5|      1|fn f() {}
 
-src/module.rs:
+/private/var/folders/r3/hm536h9x0nj5zfh1qtyt7hth0000gn/T/.tmpJWBy8h/src/module.rs:
     1|      0|pub fn func(x: u32) {
     2|      0|    match x {
     3|      0|        0 => {}

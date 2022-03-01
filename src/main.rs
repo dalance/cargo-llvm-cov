@@ -209,8 +209,6 @@ fn set_env(cx: &Context, target: &mut impl EnvTarget) {
             rustflags.push_str(" -C codegen-units=1");
         }
     }
-    // --remap-path-prefix is needed because sometimes macros are displayed with absolute path
-    rustflags.push_str(&format!(" --remap-path-prefix {}/=", cx.ws.metadata.workspace_root));
     if !cx.cov.no_cfg_coverage {
         rustflags.push_str(" --cfg coverage");
     }
@@ -676,9 +674,7 @@ fn ignore_filename_regex(cx: &Context) -> Option<String> {
     }
     if !cx.cov.disable_default_ignore_filename_regex {
         out.push(default_ignore_filename_regex());
-        for path in
-            [home::home_dir(), home::cargo_home().ok(), home::rustup_home().ok()].iter().flatten()
-        {
+        for path in [home::cargo_home().ok(), home::rustup_home().ok()].iter().flatten() {
             out.push_abs_path(path);
         }
         for path in resolve_excluded_paths(cx) {

@@ -153,16 +153,37 @@ fn merge_with_failure_mode(output_dir: &Utf8Path, failure_mode_all: bool) {
         cargo_llvm_cov()
             .args(["--color", "never", "--no-report", "--features", "a"])
             .current_dir(workspace_root.path())
+            .env(
+                "RUSTFLAGS",
+                format!(
+                    "--remap-path-prefix {}/=",
+                    fs::canonicalize(workspace_root.path()).unwrap().display()
+                ),
+            )
             .assert_success();
         cargo_llvm_cov()
             .args(["--color", "never", "--no-report", "--features", "b"])
             .current_dir(workspace_root.path())
+            .env(
+                "RUSTFLAGS",
+                format!(
+                    "--remap-path-prefix {}/=",
+                    fs::canonicalize(workspace_root.path()).unwrap().display()
+                ),
+            )
             .assert_success();
         let mut cmd = cargo_llvm_cov();
         cmd.args(["--color", "never", "--no-run", "--output-path"])
             .arg(output_path)
             .args(args)
-            .current_dir(workspace_root.path());
+            .current_dir(workspace_root.path())
+            .env(
+                "RUSTFLAGS",
+                format!(
+                    "--remap-path-prefix {}/=",
+                    fs::canonicalize(workspace_root.path()).unwrap().display()
+                ),
+            );
         cmd.assert_success();
 
         if failure_mode_all {
@@ -191,12 +212,26 @@ fn clean_ws() {
         cargo_llvm_cov()
             .args(["--color", "never", "--no-report", "--features", "a"])
             .current_dir(workspace_root.path())
+            .env(
+                "RUSTFLAGS",
+                format!(
+                    "--remap-path-prefix {}/=",
+                    fs::canonicalize(workspace_root.path()).unwrap().display()
+                ),
+            )
             .assert_success();
         cargo_llvm_cov()
             .args(["--color", "never", "--no-run", "--output-path"])
             .arg(output_path)
             .args(args)
             .current_dir(workspace_root.path())
+            .env(
+                "RUSTFLAGS",
+                format!(
+                    "--remap-path-prefix {}/=",
+                    fs::canonicalize(workspace_root.path()).unwrap().display()
+                ),
+            )
             .assert_success();
 
         normalize_output(output_path, args).unwrap();
@@ -205,16 +240,37 @@ fn clean_ws() {
         cargo_llvm_cov()
             .args(["clean", "--color", "never", "--workspace"])
             .current_dir(workspace_root.path())
+            .env(
+                "RUSTFLAGS",
+                format!(
+                    "--remap-path-prefix {}/=",
+                    fs::canonicalize(workspace_root.path()).unwrap().display()
+                ),
+            )
             .assert_success();
         cargo_llvm_cov()
             .args(["--color", "never", "--no-report", "--features", "a"])
             .current_dir(workspace_root.path())
+            .env(
+                "RUSTFLAGS",
+                format!(
+                    "--remap-path-prefix {}/=",
+                    fs::canonicalize(workspace_root.path()).unwrap().display()
+                ),
+            )
             .assert_success();
         cargo_llvm_cov()
             .args(["--color", "never", "--no-run", "--output-path"])
             .arg(output_path)
             .args(args)
             .current_dir(workspace_root.path())
+            .env(
+                "RUSTFLAGS",
+                format!(
+                    "--remap-path-prefix {}/=",
+                    fs::canonicalize(workspace_root.path()).unwrap().display()
+                ),
+            )
             .assert_success();
 
         normalize_output(output_path, args).unwrap();

@@ -56,7 +56,11 @@ pub fn test_report(
     cmd.args(["--color", "never", "--output-path"])
         .arg(output_path)
         .args(args)
-        .current_dir(workspace_root.path());
+        .current_dir(workspace_root.path())
+        .env(
+            "RUSTFLAGS",
+            format!("--remap-path-prefix {}/=", fs::canonicalize(workspace_root.path())?.display()),
+        );
     for (key, val) in envs {
         cmd.env(key, val);
     }
